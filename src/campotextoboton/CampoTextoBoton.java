@@ -6,8 +6,12 @@
 package campotextoboton;
 
 import java.io.IOException;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
 
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -45,4 +49,49 @@ public class CampoTextoBoton extends HBox {
     protected void doSomething() {
         System.out.println("The button was clicked!");
     }
+    
+    public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() 
+    {
+        return onAction;
+    }
+    
+    public final void setOnAction(EventHandler<ActionEvent> value) 
+    {
+        onActionProperty().set(value);
+    }
+    
+    public final EventHandler<ActionEvent> getOnAction() 
+    {
+        return onActionProperty().get();
+    }
+    
+    private ObjectProperty<EventHandler<ActionEvent>> onAction = new ObjectPropertyBase<EventHandler<ActionEvent>>()
+    {
+        @Override
+        protected void invalidated()
+        {
+            setEventHandler(ActionEvent.ACTION, get());
+        }
+        
+        @Override
+        public Object getBean() 
+        {
+            return CampoTextoBoton.this;
+            
+        }
+
+        @Override
+        public String getName() 
+        {
+            return "onAction";
+  
+        }  
+    };
+    
+    
+  
+        
+    
+    
+    
 }
